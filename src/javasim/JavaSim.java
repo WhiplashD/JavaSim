@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class JavaSim {
 
-    private static final boolean isRunning = true;
+    public static boolean isRunning = true;
     public static boolean isUpdating = true;
     private final static String newline = "\n";
 

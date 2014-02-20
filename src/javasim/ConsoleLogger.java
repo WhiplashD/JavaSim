@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,13 +20,18 @@ import java.util.logging.Logger;
 public class ConsoleLogger {
 
     private static final File simlog = new File("simlog.log");
-    private static Date date = new Date();
-    private static Timestamp stamp = new Timestamp(date.getTime());
+    private static Date date;
+    private static Timestamp stamp;
 
     public static void Log(Object input) {
+
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(simlog, true)))) {
+            date = new Date();
+            stamp = new Timestamp(date.getTime());
             out.println(stamp);
             out.println(input);
+            System.out.println(stamp);
+            System.out.println(input);
         } catch (IOException ex) {
             System.out.println("Logging error: " + ex.getMessage());
         }

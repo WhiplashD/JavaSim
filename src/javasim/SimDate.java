@@ -16,44 +16,38 @@ public class SimDate {
     /*
      Setting up calender variables.
      */
+
     private static int hour;
     private static int day = 1;
     private static int month = 1;
     private static int year = 1;
 
-    
-     int hour() {
-            hour++;
+    int hour() {
+        hour++;
         if (hour >= 24) {
             hour = 1;
             day++;
         }
-        System.out.println("The hour is: " + hour);
-ConsoleLogger.Log(hour);
         return hour;
     }
 
-     int day() {
+    int day() {
         if (day >= 31) {
             day = 1;
             month++;
         }
-        System.out.println("The day is: " + day);
-        ConsoleLogger.Log(day);
         return day;
     }
 
-     int month() {
+    int month() {
         if (month >= 12) {
             month = 1;
             year++;
         }
-        System.out.println("The month is: " + month);
         return month;
     }
 
-     int year() {
-        System.out.println("The year is: " + year);
+    int year() {
         return year;
     }
 }
