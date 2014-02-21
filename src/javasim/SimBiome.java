@@ -3,13 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package javasim;
 
 /**
  *
  * @author Whiplash
  */
-public class SimBiome {
-    
+abstract class SimBiome {
+
+    int temp;
+    int precip;
+
+    public void Temperature() {
+
+    }
+
+    public void Precipitation() {
+
+    }
 }
