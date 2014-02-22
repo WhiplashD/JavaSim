@@ -24,7 +24,6 @@ public class ConsoleLogger {
     private static Timestamp stamp;
 
     public static void Log(Object input) {
-
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(simlog, true)))) {
             date = new Date();
             stamp = new Timestamp(date.getTime());
@@ -34,8 +33,21 @@ public class ConsoleLogger {
             System.out.println(input);
         } catch (IOException ex) {
             System.out.println("Logging error: " + ex.getMessage());
+
         }
 
     }
 
+        public static void StartLog() {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(simlog, true)))) {
+            date = new Date();
+            stamp = new Timestamp(date.getTime());
+            out.println("-----------PROGRAM START " + stamp + "-----------");
+            System.out.println("-----------PROGRAM START " + stamp + "-----------");
+        } catch (IOException ex) {
+            System.out.println("Logging error: " + ex.getMessage());
+
+        }
+
+    }
 }

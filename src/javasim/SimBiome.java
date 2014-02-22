@@ -11,14 +11,11 @@ package javasim;
  */
 abstract class SimBiome {
 
-    int temp;
-    int precip;
-
-    public void Temperature() {
-
+    public int Temperature(int temp) {
+        return temp;
     }
 
-    public void Precipitation() {
-
+    public int Precipitation(int precip) {
+        return precip;
     }
 }

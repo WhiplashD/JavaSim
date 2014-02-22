@@ -23,11 +23,13 @@ public class JavaSim {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
+
         SimUI f = new SimUI();
         f.setVisible(true);
         PrintStream printStream = new PrintStream(new ConsoleOutputStream(f.ConsoleOutputWindow));
         System.setOut(printStream);
         System.setErr(printStream);
+        ConsoleLogger.StartLog();
         SimDate sd = new SimDate();
         while (isRunning) {
             if (isUpdating) {

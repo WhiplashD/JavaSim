@@ -28,7 +28,7 @@ public class SimDate {
             hour = 1;
             day++;
         }
-        ConsoleLogger.Log(hour);
+        ConsoleLogger.Log("Hours: " + hour);
         return hour;
     }
 
@@ -37,7 +37,7 @@ public class SimDate {
             day = 1;
             month++;
         }
-        ConsoleLogger.Log(day);
+        ConsoleLogger.Log("Days: " + day);
         return day;
     }
 
@@ -46,12 +46,12 @@ public class SimDate {
             month = 1;
             year++;
         }
-        ConsoleLogger.Log(month);
+        ConsoleLogger.Log("Months: " + month);
         return month;
     }
 
     int year() {
-        ConsoleLogger.Log(year);
+        ConsoleLogger.Log("Years: " + year);
         return year;
     }
 }
