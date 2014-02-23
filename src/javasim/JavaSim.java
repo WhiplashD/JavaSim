@@ -33,12 +33,12 @@ public class JavaSim {
         SimDate sd = new SimDate();
         while (isRunning) {
             if (isUpdating) {
-                sd.hour();
-                sd.day();
-                sd.month();
-                sd.year();
+                sd.Epoch();
+                sd.getHour();
+                sd.getDay();
+                sd.getMonth();
             }
-            Thread.sleep(1000);
+            Thread.sleep(10);
         }
 
     }

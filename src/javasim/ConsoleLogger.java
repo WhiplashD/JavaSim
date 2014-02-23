@@ -33,7 +33,6 @@ public class ConsoleLogger {
             System.out.println(input);
         } catch (IOException ex) {
             System.out.println("Logging error: " + ex.getMessage());
-
         }
 
     }
@@ -46,7 +45,6 @@ public class ConsoleLogger {
             System.out.println("-----------PROGRAM START " + stamp + "-----------");
         } catch (IOException ex) {
             System.out.println("Logging error: " + ex.getMessage());
-
         }
 
     }
