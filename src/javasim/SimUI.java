@@ -152,8 +152,8 @@ public class SimUI extends javax.swing.JFrame {
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
 
-        if (evt.getKeyChar() == 'p') {
-            JavaSim.isUpdating = !JavaSim.isUpdating;
+        if (evt.getKeyChar() == 'p') { // if key "p" is pressed
+            JavaSim.isUpdating = !JavaSim.isUpdating; // toggle JavaSim's isUpdating state, to pause and unpause the simulation.
             if (JavaSim.isUpdating == true) {
                 ConsoleLogger.Log("Resumed.", 3);
             }

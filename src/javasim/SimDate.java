@@ -7,7 +7,7 @@ package javasim;
  */
 public class SimDate {
 
-    private int epoch;
+    private int epoch; // Time (in game steps; 1 game step = 1 simulation hour, which has passed since the simulation started.
 
     public int Epoch() {
         epoch++;
@@ -15,13 +15,13 @@ public class SimDate {
     }
 
     public int getHour() {
-        int hour = epoch % 24;
+        int hour = epoch % 24; // Hours are on a 24 hour clock, 0 being 24, or 12 AM.
         ConsoleLogger.Log("Hour:" + hour, 1);
         return hour;
     }
 
     public int getDay() {
-        int day = epoch / 24 % 31 + 1;
+        int day = epoch / 24 % 31 + 1; // All months have 31 days.
         ConsoleLogger.Log("Day: " + day, 1);
         return day;
     }

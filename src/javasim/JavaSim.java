@@ -21,12 +21,12 @@ public class JavaSim {
     public static void main(String[] args) throws InterruptedException {
         
         SimUI f = new SimUI();
-        f.setVisible(true);
-        PrintStream printStream = new PrintStream(new ConsoleOutputStream(f.ConsoleOutputWindow));
-        System.setOut(printStream);
-        System.setErr(printStream);
-        ConsoleLogger.StartLog();
-        ConsoleLogger.Verbosity(1);
+        f.setVisible(true); 
+        PrintStream printStream = new PrintStream(new ConsoleOutputStream(f.ConsoleOutputWindow)); // Initializes ConsoleOutputStream 
+        System.setOut(printStream); //which sends System messages and errors
+        System.setErr(printStream); //  to the UI's ConsoleOutputWindow.
+        ConsoleLogger.StartLog(); // Creates program startup timestamp in simlog.log
+        ConsoleLogger.Verbosity(1); // Logger verbosity, default is 1.
         SimDate sd = new SimDate();
         while (isRunning) {
             if (isUpdating) {
