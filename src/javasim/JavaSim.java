@@ -1,6 +1,8 @@
 package javasim;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -37,13 +39,11 @@ public class JavaSim {
         }
 
         SimDate sd = new SimDate();
+
         while (isRunning) {
             if (isUpdating) {
                 sd.Epoch();
-                f.setHour(sd.getHour());
-                f.setDay(sd.getDay());
-                f.setMonth(sd.getMonth());
-                f.setYear(sd.getYear());
+                f.displayTime(sd);
             }
             Thread.sleep(1000);
         }

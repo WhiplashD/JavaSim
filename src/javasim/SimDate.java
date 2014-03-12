@@ -9,6 +9,11 @@ public class SimDate {
 
     private int epoch; // Time (in game steps; 1 game step = 1 simulation hour, which has passed since the simulation started.
 
+    public SimDate() {
+        Epoch();
+    }
+
+    
     public int Epoch() {
         epoch++;
         return epoch;
@@ -21,7 +26,7 @@ public class SimDate {
     }
 
     public int getDay() {
-        int day = epoch / 24 % 31 + 1; // All months have 31 days.
+        int day = epoch / 24 % 31 + 1; // All months have 31 days in this simulation.
         ConsoleLogger.Log("Day: " + day, 1);
         return day;
     }
