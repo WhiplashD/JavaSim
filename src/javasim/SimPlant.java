@@ -8,9 +8,14 @@ public class SimPlant {
 
     private int nutritionValue;
     private boolean isDead;
+    private String name;
 
-    public SimPlant() {
-
+    public SimPlant(String name) {
+this.name = name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
     
     public void setNutritionValue(int value) {

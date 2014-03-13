@@ -40,8 +40,10 @@ public class JavaSim {
         }
 
         SimDate sd = new SimDate();
+        SimBiome sb = new SimBiome();
         List<Updateable> UpdateList = new ArrayList<Updateable>();
 UpdateList.add(sd);
+UpdateList.add(sb);
         while (isRunning) {
             if (isUpdating) {
 for (Updateable u : UpdateList) {
