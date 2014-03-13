@@ -3,6 +3,7 @@ package javasim;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -39,10 +40,13 @@ public class JavaSim {
         }
 
         SimDate sd = new SimDate();
-
+        List<Updateable> UpdateList = new ArrayList<Updateable>();
+UpdateList.add(sd);
         while (isRunning) {
             if (isUpdating) {
-                sd.Epoch();
+for (Updateable u : UpdateList) {
+    u.Update();
+}
                 f.displayTime(sd);
             }
             Thread.sleep(1000);
