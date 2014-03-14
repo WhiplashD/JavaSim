@@ -52,7 +52,7 @@ public class JavaSim {
                 }
                 f.displayTime(sd);
             }
-            Thread.sleep(10);
+            Thread.sleep(1000);
         }
 
     }
