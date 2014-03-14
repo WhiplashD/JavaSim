@@ -1,4 +1,3 @@
-
 package javasim;
 
 /**
@@ -12,12 +11,12 @@ public class SimDate implements Updateable {
     public SimDate() {
 
     }
-    
+
     @Override
     public void Update() {
         Epoch();
     }
-    
+
     public int Epoch() {
         epoch++;
         return epoch;
@@ -25,7 +24,7 @@ public class SimDate implements Updateable {
 
     public int getHour() {
         int hour = epoch % 24; // Hours are on a 24 hour clock, 0 being 24, or 12 AM.
-        ConsoleLogger.Log("Hour:" + hour, 1);
+        ConsoleLogger.Log("Hour: " + hour, 1);
         return hour;
     }
 

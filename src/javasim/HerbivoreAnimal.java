@@ -1,58 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package javasim;
+
+import java.util.Random;
 
 /**
  *
  * @author Whiplash
  */
-public class HerbivoreAnimal {
-    private int maxHunger = 100;
-    public int hunger = 100;
+public class HerbivoreAnimal implements SimAnimal {
+
+    private int maxHunger = 168;
+    public int hunger;
     private int minHunger = 0;
     private boolean isDead;
+    private String name;
+    Random random = new Random();
+    private int nutritionValue;
 
-    public HerbivoreAnimal() {
+    public HerbivoreAnimal(String name) {
+        this.name = name;
+        nutritionValue = random.nextInt(80);
+        hunger = Math.max(40, random.nextInt(maxHunger));
+    }
+
+    @Override
+    public void setNutritionValue(int value) {
+        nutritionValue = value;
+    }
+
+    @Override
+    public int getNutritionValue() {
+        return nutritionValue;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void Eat(SimPlant plant) {
+        hunger = Math.min(maxHunger, hunger + plant.getNutritionValue());
+        plant.setDead(true);
 
     }
 
-        public void Eat(SimPlant plant) {
-         hunger = Math.min(maxHunger, hunger + plant.getNutritionValue());
-plant.setDead(true);
+    @Override
+    public void setDead(boolean setDead) {
+        isDead = setDead;
     }
-        
-//        public void Sleep() {
-//            try {
-//                Thread.sleep(6000);
-//            } catch (InterruptedException ex) {
-//        }
-//        }
-        
-        public HerbivoreAnimal Breed(HerbivoreAnimal animal) {
-return new HerbivoreAnimal();
-        }
-    
-        public void setDead(boolean setDead) {
-            isDead = setDead;
-        }
-    
-        public boolean getDead() {
-            return isDead;
-        }
-        
-        public int getHunger() {
-            return hunger;
-        }
-        
-        public void setHunger(int value) {
-            hunger = Math.max(minHunger, Math.min(maxHunger, value));
-        }
-        
-        public boolean isHungry() {
-            return hunger < 25;
-        }
+
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int value) {
+        hunger = Math.max(minHunger, Math.min(maxHunger, value));
+    }
+
+    @Override
+    public boolean isHungry() {
+        hunger--;
+        return hunger < 25;
+    }
 }

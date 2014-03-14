@@ -4,21 +4,27 @@ package javasim;
  *
  * @author Whiplash
  */
-abstract class SimAnimal {
+public interface SimAnimal {
 
-    public void Eat() {
+//    void Eat();
 
-    }
+//    Object Breed(Object animal);
+    
+    void setName(String name);
+    
+    String getName();
 
-//    public void Sleep() {
-//
-//    }
+    void setDead(boolean state);
 
-    public void Breed() {
+    boolean isDead();
 
-    }
+    void setHunger(int value);
 
-    public void Die() {
+    int getHunger();
+    
+    boolean isHungry();
 
-    }
+    void setNutritionValue(int value);
+    
+    int getNutritionValue();
 }

@@ -27,13 +27,13 @@ public class ConsoleLogger {
     }
 
     public static void Log(Object input, int level) { // Takes the object to be logged, with its relevant logging level (1 being minor, 3 being major).
-        if (level >= verbosity && verbosity != 0) { // If the log call level is greater than or equal to verbosity, and verbosity is NOT 0
+        if (level >= verbosity && verbosity != 0) { // If the log call level is greater than or equal to verbosity, and verbosity is not 0
             try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(simlog, true)))) { // create a filewriter to simlog, appending all new data
                 date = new Date(); // get the date at the time of the call
                 stamp = new Timestamp(date.getTime()); // turn the date into a timestamp
-                out.println(stamp); // print the timestamp on its own line
+                out.println(stamp); // print the timestamp
                 out.println(input); // then print the object of the logging call to the file
-                System.out.println(stamp); // oh yeah also do the same to the internal console.
+                System.out.println(stamp); // and do the same to the console.
                 System.out.println(input);
             } catch (IOException ex) {
                 System.out.println("Logging error: " + ex.getMessage());
@@ -44,7 +44,7 @@ public class ConsoleLogger {
         }
     }
 
-    public static void StartLog() { // This method is called to create the initial timestamp and line seperator in simlog.log to tell when a new session of the program has begun.
+    public static void StartLog() { // This method is called to create the initial timestamp and line seperator in simlog.log to mark when a new session of the program has begun.
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(simlog, true)))) {
             date = new Date();
             stamp = new Timestamp(date.getTime());

@@ -41,7 +41,7 @@ public class JavaSim {
 
         SimDate sd = new SimDate();
         SimBiome sb = new SimBiome();
-        sb.startingPlants();
+        sb.initializeBiome();
         List<Updateable> UpdateList = new ArrayList<>();
         UpdateList.add(sd);
         UpdateList.add(sb);
@@ -52,7 +52,7 @@ public class JavaSim {
                 }
                 f.displayTime(sd);
             }
-            Thread.sleep(1000);
+            Thread.sleep(10);
         }
 
     }
