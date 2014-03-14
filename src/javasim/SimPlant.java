@@ -18,6 +18,10 @@ this.name = name;
         this.name = name;
     }
     
+    public String getName() {
+        return name;
+    }
+    
     public void setNutritionValue(int value) {
         nutritionValue = value;
     }

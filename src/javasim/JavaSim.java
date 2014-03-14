@@ -2,8 +2,8 @@ package javasim;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -41,14 +41,15 @@ public class JavaSim {
 
         SimDate sd = new SimDate();
         SimBiome sb = new SimBiome();
-        List<Updateable> UpdateList = new ArrayList<Updateable>();
-UpdateList.add(sd);
-UpdateList.add(sb);
+        sb.startingPlants();
+        List<Updateable> UpdateList = new ArrayList<>();
+        UpdateList.add(sd);
+        UpdateList.add(sb);
         while (isRunning) {
             if (isUpdating) {
-for (Updateable u : UpdateList) {
-    u.Update();
-}
+                for (Updateable u : UpdateList) {
+                    u.Update();
+                }
                 f.displayTime(sd);
             }
             Thread.sleep(1000);
