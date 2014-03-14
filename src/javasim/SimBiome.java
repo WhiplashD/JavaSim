@@ -45,9 +45,10 @@ public class SimBiome implements Updateable {
     public void plantDeSpawner() {
         randnum = gen.nextInt(plantArray.size());
         dienum++;
-        if (randnum == dienum) {
+        if (randnum == dienum | dienum == plantArray.size()) {
             ConsoleLogger.Log(plantArray.get(randnum).getName() + " has died.", 2);
             plantArray.remove(randnum);
+            dienum = 0;
         }
         else {
         for (Iterator<SimPlant> i = plantArray.iterator(); i.hasNext();) {
