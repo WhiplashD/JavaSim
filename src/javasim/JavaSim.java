@@ -51,8 +51,9 @@ public class JavaSim {
                     u.Update();
                 }
                 f.displayTime(sd);
+                f.displayBiome(sb);
             }
-            Thread.sleep(1000);
+            Thread.sleep(1);
         }
 
     }
