@@ -224,6 +224,11 @@ public class SimUI extends javax.swing.JFrame {
             }
 
         }
+        
+        if (evt.getKeyChar() == 'r') {
+            JavaSim.Initialize();
+        }
+        
     }//GEN-LAST:event_formKeyReleased
 
     public void displayTime(SimDate sd) {
@@ -232,7 +237,7 @@ public class SimUI extends javax.swing.JFrame {
         MonthPane.setText(Integer.toString(sd.getMonth()));
         YearPane.setText(Integer.toString(sd.getYear()));
     }
-    
+
     public void displayBiome(SimBiome sb) {
         PlantPane.setText(Integer.toString(sb.plantArray.size()));
         HerbAnimPane.setText(Integer.toString(sb.herbanimalArray.size()));

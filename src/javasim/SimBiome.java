@@ -30,15 +30,15 @@ public class SimBiome implements Updateable {
     ArrayList<CarnivoreAnimal> carnanimalArray = new ArrayList<>();
 
     public void initializeBiome() {
-        int p = Math.max(1000, gen.nextInt(4000));
+        int p = Math.max(10000, gen.nextInt(40000));
         for (int i = 0; i < p; i++) {
             plantArray.add(new SimPlant("sPlant " + i));
         }
-        int h = Math.max(100, gen.nextInt(400));
+        int h = Math.max(1000, gen.nextInt(4000));
         for (int i = 0; i < h; i++) {
             herbanimalArray.add(new HerbivoreAnimal("sHerbivoreAnimal " + i));
         }
-        int c = Math.max(100, gen.nextInt(300));
+        int c = Math.max(1000, gen.nextInt(3000));
         for (int i = 0; i < c; i++) {
             carnanimalArray.add(new CarnivoreAnimal("sCarnivoreAnimal " + i));
         }
@@ -46,10 +46,10 @@ public class SimBiome implements Updateable {
     }
 
     public void carnivoreAnimalSpawner() {
-        randnum = gen.nextInt(24);
+        randnum = gen.nextInt(12);
         carnanimspawnnum++;
         if (carnanimalArray.size() >= 2) {
-            if (randnum == carnanimspawnnum | carnanimspawnnum >= 24) {
+            if (randnum == carnanimspawnnum | carnanimspawnnum >= 12) {
                 carnanimalArray.add(new CarnivoreAnimal("nCarnivoreAnimal " + carnanimnum));
                 ConsoleLogger.Log("New Canivore Animal: " + carnanimalArray.get(carnanimalArray.size() - 1).getName() + " with NV of: " + carnanimalArray.get(carnanimalArray.size() - 1).getNutritionValue(), 2);
                 carnanimspawnnum = 0;
@@ -60,7 +60,7 @@ public class SimBiome implements Updateable {
     }
 
     public void carnivoreAnimalFeeder() {
-        int eatnum = gen.nextInt(24);
+        int eatnum = gen.nextInt(48);
         carnanimeat++;
         int decidernum;
         for (CarnivoreAnimal ca : carnanimalArray) {
@@ -69,7 +69,7 @@ public class SimBiome implements Updateable {
             if (decidernum == 0) {
                 if (!carnanimalArray.isEmpty()) {
                     randnum = gen.nextInt(carnanimalArray.size());
-                    if (eatnum == carnanimeat | carnanimeat >= 24) {
+                    if (eatnum == carnanimeat | carnanimeat >= 48) {
                         if (ca == carnanimalArray.get(randnum)) {
                             ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " can't eat itself!", 1);
                         } else {
@@ -98,7 +98,7 @@ public class SimBiome implements Updateable {
             } else {
                 if (!herbanimalArray.isEmpty()) {
                     randnum = gen.nextInt(herbanimalArray.size());
-                    if (eatnum == carnanimeat | carnanimeat >= 24) {
+                    if (eatnum == carnanimeat | carnanimeat >= 48) {
                         ca.Eat(herbanimalArray.get(randnum));
                         carnanimeat = 0;
                         ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + herbanimalArray.get(randnum).getName(), 2);
@@ -134,10 +134,10 @@ public class SimBiome implements Updateable {
     }
 
     public void herbivoreAnimalSpawner() {
-        randnum = gen.nextInt(24);
+        randnum = gen.nextInt(12);
         herbanimspawnnum++;
         if (herbanimalArray.size() >= 2) {
-            if (randnum == herbanimspawnnum | herbanimspawnnum >= 24) {
+            if (randnum == herbanimspawnnum | herbanimspawnnum >= 12) {
                 herbanimalArray.add(new HerbivoreAnimal("nHerbivoreAnimal " + herbanimnum));
                 ConsoleLogger.Log("New Herbivore Animal: " + herbanimalArray.get(herbanimalArray.size() - 1).getName() + " with NV of: " + herbanimalArray.get(herbanimalArray.size() - 1).getNutritionValue(), 2);
                 herbanimspawnnum = 0;
@@ -148,13 +148,13 @@ public class SimBiome implements Updateable {
     }
 
     public void herbivoreAnimalFeeder() {
-        int eatnum = gen.nextInt(24);
+        int eatnum = gen.nextInt(48);
         herbanimeat++; // Increments the animal eat variable each time the method is called.
         for (HerbivoreAnimal ha : herbanimalArray) { // For each animal in the array
             ha.isHungry(); // call that animals isHungry method which decrements their hunger variable.
             if (!plantArray.isEmpty()) { // Must check to see if the array is empty, if it is we skip eating.
                 randnum = gen.nextInt(plantArray.size()); // Generates a random number to select which plant will be eaten.
-                if (eatnum == herbanimeat | herbanimeat >= 24) { // If eatnum and the animal eat variable are equal, or if the animal eat variable is higher than 24
+                if (eatnum == herbanimeat | herbanimeat >= 48) { // If eatnum and the animal eat variable are equal, or if the animal eat variable is higher than 24
                     ha.Eat(plantArray.get(randnum)); // then the animal eats the random plant
                     herbanimeat = 0; // and the eat variable is reset to 0. 
                     ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 2);
@@ -190,7 +190,7 @@ public class SimBiome implements Updateable {
         randnum = gen.nextInt(4);
         plantspawnnum++;
         if (plantArray.size() >= 2) {
-            if (randnum == plantspawnnum | plantspawnnum >= 12) {
+            if (randnum == plantspawnnum | plantspawnnum >= 4) {
                 plantArray.add(new SimPlant("nPlant " + plantnum));
                 ConsoleLogger.Log("New plant: " + plantArray.get(plantArray.size() - 1).getName() + " with NV of: " + plantArray.get(plantArray.size() - 1).getNutritionValue(), 2);
                 plantspawnnum = 0;

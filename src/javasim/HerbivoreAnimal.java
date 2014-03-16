@@ -19,7 +19,7 @@ public class HerbivoreAnimal implements SimAnimal {
     public HerbivoreAnimal(String name) {
         this.name = name;
         nutritionValue = random.nextInt(80);
-        hunger = Math.max(40, random.nextInt(maxHunger));
+        hunger = Math.max(80, random.nextInt(maxHunger));
     }
 
     @Override

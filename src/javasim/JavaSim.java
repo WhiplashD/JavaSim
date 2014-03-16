@@ -15,19 +15,36 @@ public class JavaSim {
     public static boolean isUpdating = true;
     private final static String newline = "\n";
 
-    /**
-     *
-     * @param args the command line arguments
-     * @throws java.lang.InterruptedException
-     */
+    static List<Updateable> UpdateList;
+    static SimUI f;
+    static SimDate sd;
+    static SimBiome sb;
+
     public static void main(String[] args) throws InterruptedException {
 
-        SimUI f = new SimUI();
+        // Declare vars first
+        // Basic housekeeping
+        Initialize();
+        f = new SimUI();
         f.setVisible(true);
-        PrintStream printStream = new PrintStream(new ConsoleOutputStream(f.ConsoleOutputWindow)); // Initializes ConsoleOutputStream 
-        System.setOut(printStream); //which sends System messages and errors
-        System.setErr(printStream); //  to the UI's ConsoleOutputWindow.
-        ConsoleLogger.StartLog(); // Creates program startup timestamp in simlog.log
+        InitializeLogger();
+        CheckArgs(args);
+
+        // Main loop
+        while (isRunning) {
+            if (isUpdating) {
+                for (Updateable u : UpdateList) {
+                    u.Update();
+                }
+                f.displayTime(sd);
+                f.displayBiome(sb);
+            }
+            Thread.sleep(1000);
+        }
+
+    }
+
+    private static void CheckArgs(String[] args) {
 
         try { // This must be wrapped in a try-catch incase we are supplied with no or an invalid first argument.
             int varg = Integer.parseInt(args[0]); // Takes an optional integer argument for verbosity level.
@@ -39,23 +56,27 @@ public class JavaSim {
             ConsoleLogger.Log("No or invalid parameters supplied as verbosity argument, setting default. " + newline + ve, 3);
         }
 
-        SimDate sd = new SimDate();
-        SimBiome sb = new SimBiome();
-        sb.initializeBiome();
-        List<Updateable> UpdateList = new ArrayList<>();
-        UpdateList.add(sd);
-        UpdateList.add(sb);
-        while (isRunning) {
-            if (isUpdating) {
-                for (Updateable u : UpdateList) {
-                    u.Update();
-                }
-                f.displayTime(sd);
-                f.displayBiome(sb);
-            }
-            Thread.sleep(1);
-        }
+    }
+
+    private static void InitializeLogger() {
+
+        PrintStream printStream = new PrintStream(new ConsoleOutputStream(f.ConsoleOutputWindow)); // Initializes ConsoleOutputStream
+        System.setOut(printStream); //which sends System messages and errors
+        System.setErr(printStream); //  to the UI's ConsoleOutputWindow.
+        ConsoleLogger.StartLog(); // Creates program startup timestamp in simlog.log
 
     }
 
+    // Call this to reset
+    public static void Initialize() {
+
+        sd = new SimDate();
+        sb = new SimBiome();
+        sb.initializeBiome();
+
+        UpdateList = new ArrayList<>();
+        UpdateList.add(sd);
+        UpdateList.add(sb);
+
+    }
 }

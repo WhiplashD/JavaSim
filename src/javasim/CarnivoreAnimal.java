@@ -24,7 +24,7 @@ public class CarnivoreAnimal implements SimAnimal {
     public CarnivoreAnimal(String name) {
         this.name = name;
         nutritionValue = random.nextInt(80);
-        hunger = Math.max(40, random.nextInt(maxHunger));
+        hunger = Math.max(80, random.nextInt(maxHunger));
     }
 
     public void Eat(SimAnimal animal) {
