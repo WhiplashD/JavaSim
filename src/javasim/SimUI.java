@@ -226,7 +226,7 @@ public class SimUI extends javax.swing.JFrame {
         }
         
         if (evt.getKeyChar() == 'r') {
-            JavaSim.Initialize();
+            JavaSim.Initialize(); // Resets the simulation.
         }
         
     }//GEN-LAST:event_formKeyReleased

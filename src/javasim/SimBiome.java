@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class SimBiome implements Updateable {
 
-    private int temperature;
+    private int temperature; // Temp and precip are unused.
     private int precipitation;
 
     Random gen = new Random();
@@ -29,16 +29,16 @@ public class SimBiome implements Updateable {
     ArrayList<HerbivoreAnimal> herbanimalArray = new ArrayList<>();
     ArrayList<CarnivoreAnimal> carnanimalArray = new ArrayList<>();
 
-    public void initializeBiome() {
-        int p = Math.max(10000, gen.nextInt(40000));
+    public void initializeBiome() { // Initializing the biome will generate between N and N plant and animal objects.
+        int p = Math.max(1000, gen.nextInt(4000));
         for (int i = 0; i < p; i++) {
             plantArray.add(new SimPlant("sPlant " + i));
         }
-        int h = Math.max(1000, gen.nextInt(4000));
+        int h = Math.max(200, gen.nextInt(600));
         for (int i = 0; i < h; i++) {
             herbanimalArray.add(new HerbivoreAnimal("sHerbivoreAnimal " + i));
         }
-        int c = Math.max(1000, gen.nextInt(3000));
+        int c = Math.max(50, gen.nextInt(200));
         for (int i = 0; i < c; i++) {
             carnanimalArray.add(new CarnivoreAnimal("sCarnivoreAnimal " + i));
         }
@@ -46,15 +46,21 @@ public class SimBiome implements Updateable {
     }
 
     public void carnivoreAnimalSpawner() {
-        randnum = gen.nextInt(12);
+        randnum = gen.nextInt(24);
         carnanimspawnnum++;
-        if (carnanimalArray.size() >= 2) {
-            if (randnum == carnanimspawnnum | carnanimspawnnum >= 12) {
-                carnanimalArray.add(new CarnivoreAnimal("nCarnivoreAnimal " + carnanimnum));
-                ConsoleLogger.Log("New Canivore Animal: " + carnanimalArray.get(carnanimalArray.size() - 1).getName() + " with NV of: " + carnanimalArray.get(carnanimalArray.size() - 1).getNutritionValue(), 2);
-                carnanimspawnnum = 0;
-                carnanimnum++;
+        int breedernum = carnanimalArray.size() / Math.max(2, gen.nextInt(8));
+        int litternum = Math.max(1, gen.nextInt(3));
+        if (randnum == carnanimspawnnum | carnanimspawnnum == 24) {
+            if (carnanimalArray.size() > 1) {
+                for (int i = 0; i < breedernum; i++) {
+                    for (int j = 0; j < litternum; j++) {
+                        carnanimalArray.add(new CarnivoreAnimal("nCarnivoreAnimal " + carnanimnum));
+                        ConsoleLogger.Log("New Canivore Animal: " + carnanimalArray.get(carnanimalArray.size() - 1).getName() + " with NV of: " + carnanimalArray.get(carnanimalArray.size() - 1).getNutritionValue(), 2);
+                        carnanimnum++;
+                    }
+                }
             }
+            carnanimspawnnum = 0;
         }
         ConsoleLogger.Log("carnivoreAnimalSpawner numbers: " + randnum + " " + carnanimspawnnum + "\n" + "Carnivore animal array size is " + carnanimalArray.size(), 1);
     }
@@ -65,7 +71,7 @@ public class SimBiome implements Updateable {
         int decidernum;
         for (CarnivoreAnimal ca : carnanimalArray) {
             ca.isHungry();
-            decidernum = gen.nextInt(2); // This random int will decide if the specific carnovire animal will eat a herbivore animal or another carnivore animal.
+            decidernum = gen.nextInt(3); // This random int will decide if the specific carnovire animal will eat a herbivore animal or another carnivore animal.
             if (decidernum == 0) {
                 if (!carnanimalArray.isEmpty()) {
                     randnum = gen.nextInt(carnanimalArray.size());
@@ -134,15 +140,21 @@ public class SimBiome implements Updateable {
     }
 
     public void herbivoreAnimalSpawner() {
-        randnum = gen.nextInt(12);
-        herbanimspawnnum++;
-        if (herbanimalArray.size() >= 2) {
-            if (randnum == herbanimspawnnum | herbanimspawnnum >= 12) {
-                herbanimalArray.add(new HerbivoreAnimal("nHerbivoreAnimal " + herbanimnum));
-                ConsoleLogger.Log("New Herbivore Animal: " + herbanimalArray.get(herbanimalArray.size() - 1).getName() + " with NV of: " + herbanimalArray.get(herbanimalArray.size() - 1).getNutritionValue(), 2);
-                herbanimspawnnum = 0;
-                herbanimnum++;
+        randnum = gen.nextInt(24);
+        herbanimnum++;
+        int breedernum = herbanimalArray.size() / Math.max(2, gen.nextInt(8));
+        int litternum = Math.max(1, gen.nextInt(3));
+        if (randnum == herbanimspawnnum | herbanimspawnnum == 24) {
+            if (herbanimalArray.size() > 1) {
+                for (int i = 0; i < breedernum; i++) {
+                    for (int j = 0; j < litternum; j++) {
+                        herbanimalArray.add(new HerbivoreAnimal("nHerbivoreAnimal " + herbanimnum));
+                        ConsoleLogger.Log("New Herbivore Animal: " + herbanimalArray.get(herbanimalArray.size() - 1).getName() + " with NV of: " + herbanimalArray.get(herbanimalArray.size() - 1).getNutritionValue(), 2);
+                        herbanimnum++;
+                    }
+                }
             }
+            herbanimspawnnum = 0;
         }
         ConsoleLogger.Log("herbivoreAnimalSpawner numbers: " + randnum + " " + herbanimspawnnum + "\n" + "Herbivore animal array size is: " + herbanimalArray.size(), 1);
     }

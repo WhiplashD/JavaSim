@@ -6,7 +6,7 @@ package javasim;
  */
 public class SimDate implements Updateable {
 
-    private int epoch; // Time (in game steps; 1 game step = 1 simulation hour, which has passed since the simulation started.
+    private int epoch; // Time (in game steps; 1 game step = 1 simulation hour which has passed since the simulation started.
 
     public SimDate() {
 
