@@ -52,7 +52,7 @@ public class JavaSim {
                 ConsoleLogger.Verbosity(varg); // If the argument integer is greater than 0 and less than 4, sets the logger verbosity to that level
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ve) {
-            ConsoleLogger.Verbosity(1); // else it defaults to 1.
+            ConsoleLogger.Verbosity(2); // else it defaults to 2.
             ConsoleLogger.Log("No or invalid parameters supplied as verbosity argument, setting default. " + newline + ve, 3);
         }
 

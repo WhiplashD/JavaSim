@@ -2,6 +2,7 @@ package javasim;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Random;
 
 /**
@@ -32,100 +33,97 @@ public class SimBiome implements Updateable {
     public void initializeBiome() { // Initializing the biome will generate between N and N plant and animal objects.
         int p = Math.max(1000, gen.nextInt(4000));
         for (int i = 0; i < p; i++) {
-            plantArray.add(new SimPlant("sPlant " + i));
+            plantArray.add(new SimPlant("iPlant " + i));
         }
-        int h = Math.max(200, gen.nextInt(600));
+        int h = Math.max(150, gen.nextInt(400));
         for (int i = 0; i < h; i++) {
-            herbanimalArray.add(new HerbivoreAnimal("sHerbivoreAnimal " + i));
+            herbanimalArray.add(new HerbivoreAnimal("iHerbivoreAnimal " + i));
         }
-        int c = Math.max(50, gen.nextInt(200));
+        int c = Math.max(50, gen.nextInt(100));
         for (int i = 0; i < c; i++) {
-            carnanimalArray.add(new CarnivoreAnimal("sCarnivoreAnimal " + i));
+            carnanimalArray.add(new CarnivoreAnimal("iCarnivoreAnimal " + i));
         }
         ConsoleLogger.Log(p + " plants have been initialized\n" + h + " herbivore animals have been initialized\n" + c + " carnivore animals have been initialized", 2);
     }
 
-    public void carnivoreAnimalSpawner() {
-        randnum = gen.nextInt(24);
-        carnanimspawnnum++;
-        int breedernum = carnanimalArray.size() / Math.max(2, gen.nextInt(8));
-        int litternum = Math.max(1, gen.nextInt(3));
-        if (randnum == carnanimspawnnum | carnanimspawnnum == 24) {
-            if (carnanimalArray.size() > 1) {
-                for (int i = 0; i < breedernum; i++) {
-                    for (int j = 0; j < litternum; j++) {
-                        carnanimalArray.add(new CarnivoreAnimal("nCarnivoreAnimal " + carnanimnum));
-                        ConsoleLogger.Log("New Canivore Animal: " + carnanimalArray.get(carnanimalArray.size() - 1).getName() + " with NV of: " + carnanimalArray.get(carnanimalArray.size() - 1).getNutritionValue(), 2);
-                        carnanimnum++;
-                    }
+    public void carnivoreAnimalBreeder() {
+        carnanimnum++;
+        for (ListIterator<CarnivoreAnimal> i = carnanimalArray.listIterator(); i.hasNext();) {
+            CarnivoreAnimal ca = i.next();
+            randnum = gen.nextInt(48);
+            if (randnum == carnanimnum | carnanimnum == 48) {
+                if (!ca.isHungry()) {
+                    i.add(ca.Breed());
+                    randnum = 0;
                 }
             }
-            carnanimspawnnum = 0;
         }
-        ConsoleLogger.Log("carnivoreAnimalSpawner numbers: " + randnum + " " + carnanimspawnnum + "\n" + "Carnivore animal array size is " + carnanimalArray.size(), 1);
     }
 
     public void carnivoreAnimalFeeder() {
-        int eatnum = gen.nextInt(48);
+        int eatnum = gen.nextInt(100);
         carnanimeat++;
         int decidernum;
         for (CarnivoreAnimal ca : carnanimalArray) {
-            ca.isHungry();
-            decidernum = gen.nextInt(3); // This random int will decide if the specific carnovire animal will eat a herbivore animal or another carnivore animal.
-            if (decidernum == 0) {
-                if (!carnanimalArray.isEmpty()) {
-                    randnum = gen.nextInt(carnanimalArray.size());
-                    if (eatnum == carnanimeat | carnanimeat >= 48) {
-                        if (ca == carnanimalArray.get(randnum)) {
-                            ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " can't eat itself!", 1);
-                        } else {
-                            ca.Eat(carnanimalArray.get(randnum));
-                            carnanimeat = 0;
-                            ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + carnanimalArray.get(randnum).getName(), 2);
-                        }
-                    } else {
-                        if (!ca.isDead()) {
-                            if (ca.isHungry()) {
-                                if (ca == carnanimalArray.get(randnum)) {
-                                    ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " can't eat itself!", 1);
-                                } else {
-                                    ca.Eat(carnanimalArray.get(randnum));
-                                    ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + carnanimalArray.get(randnum).getName(), 2);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (ca.getHunger() <= 0) {
+            ca.decHunger();
+            decidernum = gen.nextInt(5); // This random int will decide if the specific carnovire animal will eat a herbivore animal or another carnivore animal.
+            if (ca.isHungry()) { // If hungry
+                if (!ca.isDead()) { // Not dead
+                    if (ca.getHunger() <= 0) { // Hunger is greater than 0
                         ca.setDead(true);
-                    }
-                    ConsoleLogger.Log("There are no carnivore animals to eat!", 3);
-                }
-            } else {
-                if (!herbanimalArray.isEmpty()) {
-                    randnum = gen.nextInt(herbanimalArray.size());
-                    if (eatnum == carnanimeat | carnanimeat >= 48) {
+                    } else if (decidernum == 0) { // If decider num has decided carnivore selection
+                        if (carnanimalArray.size() > 2) { // And carnivore array size is larger than 2
+                            randnum = gen.nextInt(carnanimalArray.size());
+                            if (ca == carnanimalArray.get(randnum)) { // And the carnivore is not trying to eat itself
+                                ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " can't eat itself!", 1);
+                            } else { // Eat another carnivore animal.
+                                ca.Eat(carnanimalArray.get(randnum));
+                                ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + carnanimalArray.get(randnum).getName(), 2);
+                            }
+                        } else if (!herbanimalArray.isEmpty()) { // If carnivore array size is 2 or less it will eat a herbivore animal instead.
+                            randnum = gen.nextInt(herbanimalArray.size());
+                            ca.Eat(herbanimalArray.get(randnum));
+                            ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + herbanimalArray.get(randnum).getName(), 2);
+                        }
+                    } else if (!herbanimalArray.isEmpty()) { // If decidernum is anything but 0 it will eat a herbivore animal instead.
+                        randnum = gen.nextInt(herbanimalArray.size());
                         ca.Eat(herbanimalArray.get(randnum));
-                        carnanimeat = 0;
                         ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + herbanimalArray.get(randnum).getName(), 2);
-                    } else {
-                        if (!ca.isDead()) {
-                            if (ca.isHungry()) {
-                                ca.Eat(herbanimalArray.get(randnum));
-                                ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + herbanimalArray.get(randnum).getName(), 2);
-                            }
-                        }
                     }
                 } else {
+
+                }
+            } else if (eatnum == carnanimeat | carnanimeat == 100) { // Chance to repeat the process even if the animal is not hungry.
+                if (!ca.isDead()) {
                     if (ca.getHunger() <= 0) {
                         ca.setDead(true);
+                    } else if (decidernum == 0) {
+                        if (carnanimalArray.size() > 2) {
+                            randnum = gen.nextInt(carnanimalArray.size());
+                            if (ca == carnanimalArray.get(randnum)) {
+                                ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " can't eat itself!", 1);
+                            } else { // Eat another carnivore animal.
+                                ca.Eat(carnanimalArray.get(randnum));
+                                ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + carnanimalArray.get(randnum).getName(), 2);
+                                carnanimeat = 0;
+                            }
+                        } else if (!herbanimalArray.isEmpty()) {
+                            randnum = gen.nextInt(herbanimalArray.size());
+                            ca.Eat(herbanimalArray.get(randnum));
+                            ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + herbanimalArray.get(randnum).getName(), 2);
+                            carnanimeat = 0;
+                        }
+                    } else if (!herbanimalArray.isEmpty()) {
+                        randnum = gen.nextInt(herbanimalArray.size());
+                        ca.Eat(herbanimalArray.get(randnum));
+                        ConsoleLogger.Log("Carnivore Animal " + ca.getName() + " has eaten " + herbanimalArray.get(randnum).getName(), 2);
+                        carnanimeat = 0;
                     }
-                    ConsoleLogger.Log("There are no herbivore animals to eat!", 3);
-                }
+                } else {
 
+                }
             }
         }
-
     }
 
     public void carnivoreAnimalDeSpawner() {
@@ -139,53 +137,50 @@ public class SimBiome implements Updateable {
 
     }
 
-    public void herbivoreAnimalSpawner() {
-        randnum = gen.nextInt(24);
+    public void herbivoreAnimalBreeder() {
         herbanimnum++;
-        int breedernum = herbanimalArray.size() / Math.max(2, gen.nextInt(8));
-        int litternum = Math.max(1, gen.nextInt(3));
-        if (randnum == herbanimspawnnum | herbanimspawnnum == 24) {
-            if (herbanimalArray.size() > 1) {
-                for (int i = 0; i < breedernum; i++) {
-                    for (int j = 0; j < litternum; j++) {
-                        herbanimalArray.add(new HerbivoreAnimal("nHerbivoreAnimal " + herbanimnum));
-                        ConsoleLogger.Log("New Herbivore Animal: " + herbanimalArray.get(herbanimalArray.size() - 1).getName() + " with NV of: " + herbanimalArray.get(herbanimalArray.size() - 1).getNutritionValue(), 2);
-                        herbanimnum++;
-                    }
+        for (ListIterator<HerbivoreAnimal> i = herbanimalArray.listIterator(); i.hasNext();) {
+            HerbivoreAnimal ha = i.next();
+            randnum = gen.nextInt(48);
+            if (randnum == herbanimnum | herbanimnum == 48) {
+                if (!ha.isHungry()) {
+                    i.add(ha.Breed());
+                    randnum = 0;
                 }
             }
-            herbanimspawnnum = 0;
         }
-        ConsoleLogger.Log("herbivoreAnimalSpawner numbers: " + randnum + " " + herbanimspawnnum + "\n" + "Herbivore animal array size is: " + herbanimalArray.size(), 1);
     }
 
     public void herbivoreAnimalFeeder() {
-        int eatnum = gen.nextInt(48);
+        int eatnum = gen.nextInt(100);
         herbanimeat++; // Increments the animal eat variable each time the method is called.
         for (HerbivoreAnimal ha : herbanimalArray) { // For each animal in the array
-            ha.isHungry(); // call that animals isHungry method which decrements their hunger variable.
-            if (!plantArray.isEmpty()) { // Must check to see if the array is empty, if it is we skip eating.
-                randnum = gen.nextInt(plantArray.size()); // Generates a random number to select which plant will be eaten.
-                if (eatnum == herbanimeat | herbanimeat >= 48) { // If eatnum and the animal eat variable are equal, or if the animal eat variable is higher than 24
-                    ha.Eat(plantArray.get(randnum)); // then the animal eats the random plant
-                    herbanimeat = 0; // and the eat variable is reset to 0. 
-                    ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 2);
-                } else { // If eatnum and animal eat variable do not match however
-                    if (!ha.isDead()) { // and the animal is not already set to dead
-                        if (ha.isHungry()) { // and that live animal is hungry
-                            ha.Eat(plantArray.get(randnum)); // it will eat the random plant.
+            ha.decHunger(); // call that animals decHunger method which decrements their hunger variable.
+            if (!plantArray.isEmpty()) {
+                randnum = gen.nextInt(plantArray.size());
+                if (ha.isHungry()) {
+                    if (!ha.isDead()) {
+                        if (ha.getHunger() <= 0) {
+                            ha.setDead(true);
+                        } else {
+                            ha.Eat(plantArray.get(randnum));
                             ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 2);
                         }
                     }
+                } else if (eatnum == herbanimeat | herbanimeat == 100) {
+                    if (ha.isHungry()) {
+                        if (!ha.isDead()) {
+                            if (ha.getHunger() <= 0) {
+                                ha.setDead(true);
+                            } else {
+                                ha.Eat(plantArray.get(randnum));
+                                ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 2);
+                            }
+                        }
+                    }
                 }
-            } else {
-                if (ha.getHunger() <= 0) { // If the animals hunger is 0 or below 0                  
-                    ha.setDead(true); // mark it for death.                  
-                }
-                ConsoleLogger.Log("There are no more plants to eat!", 1);
             }
         }
-        ConsoleLogger.Log("herbivoreAnimalFeeder numbers: " + eatnum + " " + herbanimeat, 1);
     }
 
     public void herbivoreAnimalDeSpawner() {
@@ -201,12 +196,14 @@ public class SimBiome implements Updateable {
     public void plantSpawner() {
         randnum = gen.nextInt(4);
         plantspawnnum++;
-        if (plantArray.size() >= 2) {
+        if (!plantArray.isEmpty()) {
             if (randnum == plantspawnnum | plantspawnnum >= 4) {
-                plantArray.add(new SimPlant("nPlant " + plantnum));
-                ConsoleLogger.Log("New plant: " + plantArray.get(plantArray.size() - 1).getName() + " with NV of: " + plantArray.get(plantArray.size() - 1).getNutritionValue(), 2);
-                plantspawnnum = 0;
-                plantnum++;
+                for (int i = 0; i < gen.nextInt(500); i++) {
+                    plantArray.add(new SimPlant("nPlant " + plantnum));
+                    ConsoleLogger.Log("New plant: " + plantArray.get(plantArray.size() - 1).getName() + " with NV of: " + plantArray.get(plantArray.size() - 1).getNutritionValue(), 2);
+                    plantspawnnum = 0;
+                    plantnum++;
+                }
             }
         }
         ConsoleLogger.Log("plantSpawner numbers:" + randnum + " " + plantspawnnum + "\n" + "Plant array size is: " + plantArray.size(), 1);
@@ -254,8 +251,8 @@ public class SimBiome implements Updateable {
     @Override
     public void Update() {
         plantSpawner();
-        carnivoreAnimalSpawner();
-        herbivoreAnimalSpawner();
+        carnivoreAnimalBreeder();
+        herbivoreAnimalBreeder();
         herbivoreAnimalFeeder();
         carnivoreAnimalFeeder();
         carnivoreAnimalDeSpawner();

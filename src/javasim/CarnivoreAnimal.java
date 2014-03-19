@@ -5,6 +5,7 @@
  */
 package javasim;
 
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -20,17 +21,26 @@ public class CarnivoreAnimal implements SimAnimal {
     private String name;
     Random random = new Random();
     private int nutritionValue;
+    private int namenum;
 
     public CarnivoreAnimal(String name) {
         this.name = name;
-        nutritionValue = random.nextInt(80);
-        hunger = Math.max(80, random.nextInt(maxHunger));
+        nutritionValue = random.nextInt(40);
+        hunger = Math.max(50, random.nextInt(maxHunger));
     }
 
     public void Eat(SimAnimal animal) {
         hunger = Math.min(maxHunger, hunger + animal.getNutritionValue());
         animal.setDead(true);
 
+    }
+
+    @Override
+    public CarnivoreAnimal Breed() {
+        CarnivoreAnimal result = new CarnivoreAnimal("bCarnivoreAnimal" + namenum);
+        ConsoleLogger.Log("New Carnivore Animal " + result.getName() + " with NV of " + result.getNutritionValue(), 2);
+        namenum++;
+        return result;
     }
 
     @Override
@@ -55,7 +65,7 @@ public class CarnivoreAnimal implements SimAnimal {
 
     @Override
     public void setHunger(int value) {
-        hunger = value;
+        hunger = Math.max(minHunger, Math.min(maxHunger, value));
     }
 
     @Override
@@ -63,9 +73,12 @@ public class CarnivoreAnimal implements SimAnimal {
         return hunger;
     }
 
+    public void decHunger() {
+        hunger--;
+    }
+
     @Override
     public boolean isHungry() {
-        hunger--;
         return hunger < 25;
     }
 

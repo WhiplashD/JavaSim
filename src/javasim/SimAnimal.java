@@ -1,5 +1,7 @@
 package javasim;
 
+import java.util.Collection;
+
 /**
  *
  * @author Whiplash
@@ -8,7 +10,7 @@ public interface SimAnimal {
 
 //    void Eat();
 
-//    Object Breed(Object animal);
+    SimAnimal Breed();
     
     void setName(String name);
     

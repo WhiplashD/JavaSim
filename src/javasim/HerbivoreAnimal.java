@@ -1,5 +1,6 @@
 package javasim;
 
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -15,11 +16,20 @@ public class HerbivoreAnimal implements SimAnimal {
     private String name;
     Random random = new Random();
     private int nutritionValue;
+    private int namenum;
 
     public HerbivoreAnimal(String name) {
         this.name = name;
-        nutritionValue = random.nextInt(80);
-        hunger = Math.max(80, random.nextInt(maxHunger));
+        nutritionValue = random.nextInt(150);
+        hunger = Math.max(50, random.nextInt(maxHunger));
+    }
+
+    @Override
+    public HerbivoreAnimal Breed() {
+        HerbivoreAnimal result = new HerbivoreAnimal("bHerbivoreAnimal" + namenum);
+        ConsoleLogger.Log("New Herbivore Animal " + result.getName() + " with NV of " + result.getNutritionValue(), 2);
+        namenum++;
+        return result;
     }
 
     @Override
@@ -68,9 +78,12 @@ public class HerbivoreAnimal implements SimAnimal {
         hunger = Math.max(minHunger, Math.min(maxHunger, value));
     }
 
+    public void decHunger() {
+        hunger--;
+    }
+
     @Override
     public boolean isHungry() {
-        hunger--;
         return hunger < 25;
     }
 }

@@ -15,7 +15,7 @@ public class SimPlant {
 
     public SimPlant(String name) {
 this.name = name;
-nutritionValue = random.nextInt(150);
+nutritionValue = random.nextInt(200);
     }
     
     public void setName(String name) {
