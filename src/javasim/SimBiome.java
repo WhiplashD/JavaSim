@@ -47,14 +47,14 @@ public class SimBiome implements Updateable {
     }
 
     public void carnivoreAnimalBreeder() {
-        carnanimnum++;
         for (ListIterator<CarnivoreAnimal> i = carnanimalArray.listIterator(); i.hasNext();) {
             CarnivoreAnimal ca = i.next();
-            randnum = gen.nextInt(48);
-            if (randnum == carnanimnum | carnanimnum == 48) {
+            carnanimnum++;
+            randnum = gen.nextInt(240);
+            if (randnum == carnanimnum | carnanimnum == 240) {
                 if (!ca.isHungry()) {
                     i.add(ca.Breed());
-                    randnum = 0;
+                    carnanimnum = 0;
                 }
             }
         }
@@ -66,7 +66,7 @@ public class SimBiome implements Updateable {
         int decidernum;
         for (CarnivoreAnimal ca : carnanimalArray) {
             ca.decHunger();
-            decidernum = gen.nextInt(5); // This random int will decide if the specific carnovire animal will eat a herbivore animal or another carnivore animal.
+            decidernum = gen.nextInt(4); // This random int will decide if the specific carnovire animal will eat a herbivore animal or another carnivore animal.
             if (ca.isHungry()) { // If hungry
                 if (!ca.isDead()) { // Not dead
                     if (ca.getHunger() <= 0) { // Hunger is greater than 0
@@ -138,14 +138,14 @@ public class SimBiome implements Updateable {
     }
 
     public void herbivoreAnimalBreeder() {
-        herbanimnum++;
         for (ListIterator<HerbivoreAnimal> i = herbanimalArray.listIterator(); i.hasNext();) {
             HerbivoreAnimal ha = i.next();
-            randnum = gen.nextInt(48);
-            if (randnum == herbanimnum | herbanimnum == 48) {
+            herbanimnum++;
+            randnum = gen.nextInt(240);
+            if (randnum == herbanimnum | herbanimnum == 240) {
                 if (!ha.isHungry()) {
                     i.add(ha.Breed());
-                    randnum = 0;
+                    herbanimnum = 0;
                 }
             }
         }
@@ -164,7 +164,7 @@ public class SimBiome implements Updateable {
                             ha.setDead(true);
                         } else {
                             ha.Eat(plantArray.get(randnum));
-                            ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 2);
+                            ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 1);
                         }
                     }
                 } else if (eatnum == herbanimeat | herbanimeat == 100) {
@@ -174,7 +174,7 @@ public class SimBiome implements Updateable {
                                 ha.setDead(true);
                             } else {
                                 ha.Eat(plantArray.get(randnum));
-                                ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 2);
+                                ConsoleLogger.Log("Herbivore Animal " + ha.getName() + " has eaten " + plantArray.get(randnum).getName(), 1);
                             }
                         }
                     }
@@ -200,7 +200,7 @@ public class SimBiome implements Updateable {
             if (randnum == plantspawnnum | plantspawnnum >= 4) {
                 for (int i = 0; i < gen.nextInt(500); i++) {
                     plantArray.add(new SimPlant("nPlant " + plantnum));
-                    ConsoleLogger.Log("New plant: " + plantArray.get(plantArray.size() - 1).getName() + " with NV of: " + plantArray.get(plantArray.size() - 1).getNutritionValue(), 2);
+                    ConsoleLogger.Log("New plant: " + plantArray.get(plantArray.size() - 1).getName() + " with NV of: " + plantArray.get(plantArray.size() - 1).getNutritionValue(), 1);
                     plantspawnnum = 0;
                     plantnum++;
                 }
@@ -211,19 +211,11 @@ public class SimBiome implements Updateable {
 
     public void plantDeSpawner() {
         if (!plantArray.isEmpty()) {
-            randnum = gen.nextInt(plantArray.size());
-            plantdienum++;
-            if (randnum == plantdienum | plantdienum == plantArray.size()) {
-                ConsoleLogger.Log(plantArray.get(randnum).getName() + " has died.", 2);
-                plantArray.remove(randnum);
-                plantdienum = 0;
-            } else {
-                for (Iterator<SimPlant> i = plantArray.iterator(); i.hasNext();) {
-                    SimPlant plant = i.next();
-                    if (plant.isDead()) {
-                        ConsoleLogger.Log(plant.getName() + " has died.", 2);
-                        i.remove();
-                    }
+            for (Iterator<SimPlant> i = plantArray.iterator(); i.hasNext();) {
+                SimPlant plant = i.next();
+                if (plant.isDead()) {
+                    ConsoleLogger.Log(plant.getName() + " has died.", 1);
+                    i.remove();
                 }
             }
         } else {
